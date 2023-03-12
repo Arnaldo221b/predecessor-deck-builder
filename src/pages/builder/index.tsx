@@ -1,15 +1,18 @@
-import { useState } from 'react'
+import { useReducer } from 'react'
 import Item from '../../components/item'
 import { CardItem, Deck } from '../../models'
+import deckReducers, { DeckReducersActionType } from '../../reducers'
 
 const BuilderPage = () => {
     const data = getData()
 
-    const [ currentDeck, setCurrentDeck ] = useState(data.decks[0])
+    const [ currentDeck, dispatch ] = useReducer(deckReducers, data.decks[0])
 
     const addToDeck = (card: CardItem) => {
-        const newDeck = { ...currentDeck, items: [...currentDeck.items, card] }
-        setCurrentDeck(newDeck);
+        dispatch({
+            type: DeckReducersActionType.AddItem,
+            payload: card
+        })
     }
 
     return (
