@@ -1,5 +1,4 @@
-import { useContext } from "react"
-import { DeckDispatchContext } from "../contexts"
+import { useDispatchContext } from "../contexts/DeckBuilderContext"
 import { CardItem } from "../models"
 import { DeckReducersActionType } from "../reducers"
 
@@ -13,7 +12,7 @@ const styleExample = {
 }
 
 const Item = ({ cardItem, deckId = null }: ItemProps) => {
-     const deckDispatch = useContext(DeckDispatchContext)
+     const deckDispatch = useDispatchContext()
 
      const { name, description } = cardItem
      

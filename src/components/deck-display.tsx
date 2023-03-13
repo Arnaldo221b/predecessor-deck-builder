@@ -1,8 +1,8 @@
-import { Deck } from "../models"
+import { useDeckStatusContext } from "../contexts/DeckBuilderContext";
 import Item from "./item";
 
-const DeckDisplay = ({ deck }: DeckDisplayProps) => {
-    const { character, items, id } = deck
+const DeckDisplay = () => {
+    const { character, items, id } = useDeckStatusContext()
 
     return (
         <>
@@ -16,10 +16,6 @@ const DeckDisplay = ({ deck }: DeckDisplayProps) => {
             </div>
         </>
     );
-}
-
-interface DeckDisplayProps {
-    deck: Deck
 }
 
 export default DeckDisplay
