@@ -1,47 +1,36 @@
 import { useReducer } from 'react'
-import Item from '../../components/item'
 import { CardItem, Deck } from '../../models'
-import deckReducers, { DeckReducersActionType } from '../../reducers'
+import deckReducers from '../../reducers'
+import { DeckStatusContext, DeckDispatchContext } from '../../contexts'
+import DeckDisplay from '../../components/deck-display'
+import ItemList from '../../components/item-list'
 
 const BuilderPage = () => {
     const data = getData()
 
-    const [ currentDeck, dispatch ] = useReducer(deckReducers, data.decks[0])
-
-    const addToDeck = (card: CardItem) => {
-        dispatch({
-            type: DeckReducersActionType.AddItem,
-            payload: card
-        })
-    }
+    const [ currentDeck, dispatch ] = useReducer(deckReducers, data.deck)
 
     return (
         <>
-        <div className='builder-page-container'>
-            <div className='current-deck-section'>
-                <h2>Character : { currentDeck.character }</h2>
-                <h3>Qty added cards : { currentDeck.items.length }</h3>
-                <h4>Added Cards</h4>
-                <ul>
-                    { currentDeck.items.map((item, index) => (<li key={index} ><Item add={addToDeck} cardItem={item} /></li>)) }
-                </ul>
-            </div>
-            <div className='available-items-section'>
-                <ul>
-                    { data.availableItems.map((item, index) => (<li key={index} ><Item add={addToDeck} cardItem={item} /></li>)) }
-                </ul>
-            </div>
-        </div>
+        <DeckStatusContext.Provider value={currentDeck} >
+            <DeckDispatchContext.Provider value={dispatch} >
+                <div className='builder-page-container'>
+                    <DeckDisplay deck={currentDeck} />
+                    <ItemList items={data.availableItems} />
+                </div>
+            </DeckDispatchContext.Provider>
+        </DeckStatusContext.Provider>
         </>
     )
 }
 
 const getData = (): CustomContext => {
     return {
-        decks: [{
+        deck: {
+            id: 1,
             character: 'Gideon',
             items: []
-        }],
+        },
         availableItems: [
             {
                 name: 'Solstone',
@@ -56,7 +45,7 @@ const getData = (): CustomContext => {
 }
 
 interface CustomContext {
-    decks: Deck[],
+    deck: Deck,
     availableItems: CardItem[]
 }
 

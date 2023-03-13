@@ -1,4 +1,5 @@
 export interface Deck {
+    id: number,
     character: string,
     items: CardItem[]
 }
