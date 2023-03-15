@@ -1,10 +1,12 @@
 import './App.css';
-import BuilderPage from './pages/builder'
+import PredAppRoutes from './routes';
+import PredNavBar from './pages/nav';
 
 function App() {
   return (
     <div className="App">
-      <BuilderPage/>
+      <PredNavBar />
+      <PredAppRoutes/>
     </div>
   );
 }
